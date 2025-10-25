@@ -52,6 +52,12 @@ copy setting
 cp -R ~/.config/qtile ~/Projects/nixos/nixos-dotfiles/system/qtile
 ```
 
+auto restart qtile
+
+```
+super + ctrl + r
+```
+
 ## Flake
 
 Version manager
