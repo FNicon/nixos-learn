@@ -3,20 +3,20 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 { config, lib, pkgs, ... }:
-  let
-    home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz";
-  in
+  # let
+  #   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz";
+  # in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      (import "${home-manager}/nixos")
+      # (import "${home-manager}/nixos")
     ];
 
-  home-manager.useUserPackages = true;
-  home-manager.useGlobalPkgs = true;
-  home-manager.backupFileExtension = "backup";
-  home-manager.users.username = import ./home.nix;
+  # home-manager.useUserPackages = true;
+  # home-manager.useGlobalPkgs = true;
+  # home-manager.backupFileExtension = "backup";
+  # home-manager.users.username = import ./home.nix;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -108,6 +108,8 @@
     rofi
     git
     pfetch
+    vscode
+    librewolf
   ];
   
   nixpkgs.config.allowUnfree = true;
