@@ -54,10 +54,36 @@
     enable = true;
     windowManager.qtile.enable = true;
     displayManager.sessionCommands = ''
-      xwallpaper --zoom ~/Downloads/wallpapers/house-garden.png
+      xwallpaper --zoom ~/Pictures/wallpapers/image.png
       xset r rate 200 35 &
     '';
   };
+  services.xserver.resolutions = [
+    {
+      x = 3840;
+      y = 2160;
+    }
+    {
+      x = 1920;
+      y = 1080;
+    }
+  ];
+  services.xserver.xrandrHeads = [
+    {
+      output = "HDMI-3";
+      primary = true;
+      monitorConfig = ''
+        DisplaySize 3840 2160
+      '';
+    }
+    {
+      output = "DP-3";
+      monitorConfig = ''
+        DisplaySize 1920 1080
+        Option "Below" "HDMI-3"
+      '';
+    }
+  ];
 
   services.picom = {
     enable = true;
@@ -97,19 +123,62 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
+    # editor
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    # fetch http
     wget
+    # editor
     neovim
+    # terminal
     alacritty
+    # monitor
     btop
+    # ui editor
     gedit
+    # wallpaper
     xwallpaper
+    # pc manager
     pcmanfm
+    # theme
     rofi
+    # git
     git
+    # sys info
     pfetch
-    vscode
+    
+    # browser
     librewolf
+    # sns
+    discord
+    # game
+    steam
+    # media player
+    vlc
+
+    # pen tablet
+    opentabletdriver
+    # bat
+    bat
+    # stat directory
+    qdirstat
+    # rar
+    unrar-free
+
+    # editor
+    vscode
+    # programming
+    python314
+    # record
+    obs-studio
+    # 2D
+    krita
+    # 3D
+    blender
+    # 3D
+    openscad
+    # game-engine
+    renpy
+    unityhub
   ];
   
   nixpkgs.config.allowUnfree = true;
@@ -146,6 +215,15 @@
       fcitx5-gtk
     ];
   };
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
+
+  hardware.opentabletdriver.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
