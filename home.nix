@@ -9,6 +9,7 @@
     enable = true;
     shellAliases = {
       nrs = "sudo nixos-rebuild switch";
+      qcheck = "python3 ~/.config/qtile/config.py && qtile cmd-obj -o cmd -f validate_config";
     };
 
     initExtra = ''
