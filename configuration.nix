@@ -55,7 +55,7 @@
     windowManager.qtile.enable = true;
     displayManager.sessionCommands = ''
       xwallpaper --zoom ~/Pictures/wallpapers/image.png
-      xset r rate 200 35 &
+      xset r rate 500 35 &
     '';
   };
   services.xserver.resolutions = [
@@ -77,7 +77,7 @@
       '';
     }
     {
-      output = "DP-3";
+      output = "DP-1-1";
       monitorConfig = ''
         DisplaySize 1920 1080
         Option "Below" "HDMI-3"
@@ -90,6 +90,9 @@
     backend = "glx";
     fade = true;
   };
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
+  services.devmon.enable = true;
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -145,6 +148,8 @@
     git
     # sys info
     pfetch
+    # app image run
+    appimage-run
     
     # browser
     librewolf
@@ -167,9 +172,12 @@
     # editor
     vscode
     # programming
-    python314
+    python313Packages.python
+    python313Packages.pip
+    bun
     # record
     obs-studio
+    gpu-screen-recorder-gtk
     # 2D
     krita
     # 3D
@@ -179,6 +187,11 @@
     # game-engine
     renpy
     unityhub
+    love
+
+    arandr
+
+    protonplus
   ];
   
   nixpkgs.config.allowUnfree = true;
@@ -190,6 +203,8 @@
     kochi-substitute
     source-code-pro
     ttf_bitstream_vera
+    corefonts
+    vista-fonts
   ];
   
   fonts.fontconfig.defaultFonts = {
@@ -223,7 +238,13 @@
     localNetworkGameTransfers.openFirewall = true;
   };
 
+  programs.gpu-screen-recorder.enable = true;
+
   hardware.opentabletdriver.enable = true;
+
+  services.xserver.videoDrivers = ["nvidia"];
+  hardware.graphics.enable = true;
+  hardware.nvidia.open = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
