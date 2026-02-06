@@ -57,33 +57,42 @@
       xwallpaper --zoom ~/Pictures/wallpapers/image.png
       xset r rate 500 35 &
     '';
+    setupCommands = ''
+      /run/current-system/sw/bin/xrandr --output HDMI-A-0 --mode 3840x2160 --primary
+      /run/current-system/sw/bin/xrandr --output HDMI-A-1 --mode 3840x2160
+      /run/current-system/sw/bin/xrandr --output HDMI-A-2 --mode 3840x2160
+
+      /run/current-system/sw/bin/xrandr --output DisplayPort-0 --mode 1920x1080 -below HDMI-A-0
+      /run/current-system/sw/bin/xrandr --output DisplayPort-1 --mode 1920x1080 -below HDMI-A-1
+      /run/current-system/sw/bin/xrandr --output DisplayPort-2 --mode 1920x1080 -below HDMI-A-2
+    '';
   };
-  services.xserver.resolutions = [
-    {
-      x = 3840;
-      y = 2160;
-    }
-    {
-      x = 1920;
-      y = 1080;
-    }
-  ];
-  services.xserver.xrandrHeads = [
-    {
-      output = "HDMI-3";
-      primary = true;
-      monitorConfig = ''
-        DisplaySize 3840 2160
-      '';
-    }
-    {
-      output = "DP-1-1";
-      monitorConfig = ''
-        DisplaySize 1920 1080
-        Option "Below" "HDMI-3"
-      '';
-    }
-  ];
+  # services.xserver.resolutions = [
+  #   {
+  #     x = 3840;
+  #     y = 2160;
+  #   }
+  #   {
+  #     x = 1920;
+  #     y = 1080;
+  #   }
+  # ];
+  # services.xserver.xrandrHeads = [
+  #   {
+  #     output = "HDMI-A-2";
+  #     primary = true;
+  #     monitorConfig = ''
+  #       DisplaySize 3840 2160
+  #     '';
+  #   }
+  #   {
+  #     output = "DisplayPort-2";
+  #     monitorConfig = ''
+  #       DisplaySize 1920 1080
+  #       Option "Below" "HDMI-3"
+  #     '';
+  #   }
+  # ];
 
   services.picom = {
     enable = true;
@@ -104,10 +113,14 @@
   # Enable sound.
   # services.pulseaudio.enable = true;
   # OR
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
@@ -135,7 +148,7 @@
     # terminal
     alacritty
     # monitor
-    btop
+    (btop.override { rocmSupport = true; cudaSupport = true; })
     # ui editor
     gedit
     # wallpaper
@@ -185,13 +198,30 @@
     # 3D
     openscad
     # game-engine
-    renpy
+    # renpy
     unityhub
     love
 
     arandr
 
     protonplus
+
+    fastfetch
+
+    flameshot
+
+    pwvucontrol
+
+    libreoffice-qt
+    hunspell
+    hunspellDicts.en-us
+    hunspellDicts.id_id
+
+    lmms
+
+    obsidian
+
+    pkgs.anki
   ];
   
   nixpkgs.config.allowUnfree = true;
@@ -226,7 +256,8 @@
     type = "fcitx5";
     enable = true;
     fcitx5.addons = with pkgs; [
-      fcitx5-mozc
+      # fcitx5-mozc
+      fcitx5-mozc-ut
       fcitx5-gtk
     ];
   };
@@ -242,9 +273,78 @@
 
   hardware.opentabletdriver.enable = true;
 
-  services.xserver.videoDrivers = ["nvidia"];
-  hardware.graphics.enable = true;
-  hardware.nvidia.open = true;
+  services.xserver.videoDrivers = [
+    "amdgpu"
+    "nvidia"
+  ];
+  boot.blacklistedKernelModule = ["nova_core"];
+  hardware.graphics = { enable = true; };
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
+    forceFullCompositionPipeline = true;
+  };
+  hardware.nvidia.prime = {
+    offload = {
+      enable = true;
+      enableOffloadCmd = true;
+    };
+    nvidiaBusId = "PCI:1@0:0:0";
+    amdgpuBusId = "PCI:5@0:0:0";
+  };
+  hardware.nvidia-container-toolkit.enable = true;
+  hardware.graphics.enable32Bit = true;
+
+  services.blocky = {
+    enable = true;
+    settings = {
+      ports.dns = 53; # Port for incoming DNS Queries.
+      upstreams.groups.default = [
+        # "127.0.0.1" #unbound
+        "https://one.one.one.one/dns-query" # Using Cloudflare's DNS over HTTPS server for resolving queries.
+      ];
+      # For initially solving DoH/DoT Requests when no system Resolver is available.
+      bootstrapDns = {
+        upstream = "https://one.one.one.one/dns-query";
+        ips = [ "1.1.1.1" "1.0.0.1" ];
+      };
+      #Enable Blocking of certain domains.
+      blocking = {
+        denylists = {
+          "pro" = [ "https://codeberg.org/hagezi/mirror2/raw/branch/main/dns-blocklists/wildcard/pro.txt" ];
+          "tif" = [ "https://codeberg.org/hagezi/mirror2/raw/branch/main/dns-blocklists/wildcard/tif.txt" ];
+        };
+        #Configure what block categories are used
+        clientGroupsBlock = {
+          default = [ "pro" "tif"];
+        };
+        loading = {
+          downloads = {
+            attempts = 8;
+            cooldown = "2s";
+          };
+          strategy = "fast";
+          concurrency = 1;
+        };
+      };
+      caching = {
+        minTime = "5m";
+        maxTime = "30m";
+        prefetching = true;
+      };
+    };
+  };
+
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
+
+  programs.coolercontrol.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
