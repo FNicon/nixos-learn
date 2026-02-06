@@ -60,11 +60,10 @@
         xwallpaper --zoom ~/Pictures/wallpapers/image.png
         xset r rate 500 35 &
       '';
-      setupCommands = ''
-        /run/current-system/sw/bin/xrandr --output HDMI-A-0 --mode 3840x2160
-
-        /run/current-system/sw/bin/xrandr --output DisplayPort-0 --mode 1920x1080 -below HDMI-A-0 --primary
-      '';
+      # setupCommands = ''
+      #   /run/current-system/sw/bin/xrandr --output HDMI-A-0 --mode 3840x2160
+      #   /run/current-system/sw/bin/xrandr --output DisplayPort-0 --mode 1920x1080 -below HDMI-A-0 --primary
+      # '';
     };
   };
 
