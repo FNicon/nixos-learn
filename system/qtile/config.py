@@ -33,10 +33,20 @@ import os
 import subprocess
 from libqtile import hook
 
-@hook.subscribe.startup_once
-def autostart():
-    home = os.path.expanduser('~/.screenlayout/drawing.sh')
-    subprocess.call(home)
+from floating_window_snapping import _borders_touch
+
+@lazy.window.function
+def move_snap_window(window, x, y, snap_dist=20):
+    """Move floating window to x and y.
+    Border snapping makes floating window's borders
+    stick to other borders for easy alignment
+    """
+    window.tweak_float(**_borders_touch(window, x, y, snap_dist)) 
+
+# @hook.subscribe.startup_once
+# def autostart():
+#     home = os.path.expanduser('~/.screenlayout/drawing.sh')
+#     subprocess.call(home)
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -90,6 +100,9 @@ keys = [
     Key([mod], "b", lazy.spawn("librewolf")),
     Key([mod], "f", lazy.spawn("pcmanfm")),
     Key([mod], "d", lazy.spawn("rofi -show drun")),
+
+    # Key([mod, "control"], "up", lazy.hide_show_bar("top"), desc='toggle top bar'),
+    Key([mod, "control"], "down", lazy.hide_show_bar("bottom"), desc='toggle topbottom bar')
 ]
 
 # Add key bindings to switch VTs in Wayland.
@@ -169,6 +182,30 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
+                widget.CPUGraph(
+                    line_width=1,
+                    border_width=0,
+                    width=66,
+                    type='box',
+                    graph_color="#ff0000",
+                    fill_color="#ffaa00"
+                    ),
+                widget.NetGraph(
+                    line_width=1,
+                    border_width=0,
+                    width=66,
+                    type='box',
+                    graph_color="#0000ff",
+                    fill_color="#00aaff",
+                    interface="auto"),
+                widget.MemoryGraph(
+                    line_width=1,
+                    border_width=0,
+                    width=66,
+                    type='box',
+                    graph_color="#00aa00",
+                    fill_color="#00ff00"
+                    ),
                 widget.TextBox("default config", name="default"),
                 widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
@@ -211,6 +248,7 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
+        Match(title="UnityEditor.PopupWindow"),
     ]
 )
 auto_fullscreen = True
