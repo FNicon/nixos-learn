@@ -5,7 +5,7 @@
     "amdgpu"
     "nvidia"
   ];
-  boot.blacklistedKernelModule = ["nova_core"];
+  boot.blacklistedKernelModules = ["nova_core"];
   hardware.graphics = { enable = true; };
   hardware.nvidia = {
     modesetting.enable = true;
