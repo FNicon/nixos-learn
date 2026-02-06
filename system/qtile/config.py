@@ -43,10 +43,10 @@ def move_snap_window(window, x, y, snap_dist=20):
     """
     window.tweak_float(**_borders_touch(window, x, y, snap_dist)) 
 
-# @hook.subscribe.startup_once
-# def autostart():
-#     home = os.path.expanduser('~/.screenlayout/drawing.sh')
-#     subprocess.call(home)
+@hook.subscribe.startup_once
+def autostart():
+    home = os.path.expanduser('~/.screenlayout/drawing.sh')
+    subprocess.call(home)
 
 mod = "mod4"
 terminal = guess_terminal()
