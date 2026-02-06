@@ -188,7 +188,8 @@ screens = [
                     width=66,
                     type='box',
                     graph_color="#ff0000",
-                    fill_color="#ffaa00"
+                    fill_color="#ffaa00",
+                    start_pos='top'
                     ),
                 widget.NetGraph(
                     line_width=1,
@@ -197,6 +198,7 @@ screens = [
                     type='box',
                     graph_color="#0000ff",
                     fill_color="#00aaff",
+                    start_pos='top',
                     interface="auto"),
                 widget.MemoryGraph(
                     line_width=1,
@@ -204,7 +206,8 @@ screens = [
                     width=66,
                     type='box',
                     graph_color="#00aa00",
-                    fill_color="#00ff00"
+                    fill_color="#00ff00",
+                    start_pos='top'
                     ),
                 widget.TextBox("default config", name="default"),
                 widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
