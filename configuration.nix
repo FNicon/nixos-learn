@@ -20,7 +20,7 @@
       ./modules/font.nix
       ./modules/language.nix
 
-      ./window.nix
+      # ./window.nix
     ];
 
   # home-manager.useUserPackages = true;
@@ -49,6 +49,30 @@
   #   keyMap = "us";
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
+
+  # Enable the X11 windowing system.
+  # services.xserver.enable = true;
+  services.xserver = {
+    enable = true;
+    windowManager.qtile.enable = true;
+    displayManager = {
+      sessionCommands = ''
+        xwallpaper --zoom ~/Pictures/wallpapers/image.png
+        xset r rate 500 35 &
+      '';
+      setupCommands = ''
+        /run/current-system/sw/bin/xrandr --output HDMI-A-0 --mode 3840x2160
+
+        /run/current-system/sw/bin/xrandr --output DisplayPort-0 --mode 1920x1080 -below HDMI-A-0 --primary
+      '';
+    };
+  };
+
+  services.picom = {
+    enable = true;
+    backend = "glx";
+    fade = true;
+  };
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
