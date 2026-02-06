@@ -57,12 +57,12 @@
     windowManager.qtile.enable = true;
     displayManager = {
       sessionCommands = ''
-        xwallpaper --zoom ~/Pictures/wallpapers/image.png
-        xset r rate 500 35 &
+        ${pkgs.xwallpaper}/bin/xwallpaper --zoom ~/Pictures/wallpapers/image.png
+        ${pkgs.xorg.xset}/bin/xset r rate 500 35 &
       '';
       # setupCommands = ''
-      #   /run/current-system/sw/bin/xrandr --output HDMI-A-0 --mode 3840x2160
-      #   /run/current-system/sw/bin/xrandr --output DisplayPort-0 --mode 1920x1080 -below HDMI-A-0 --primary
+      #   ${pkgs.xorg.xrandr}/bin/xrandr --output HDMI-A-0 --mode 3840x2160
+      #   ${pkgs.xorg.xrandr}/bin/xrandr --output DisplayPort-0 --mode 1920x1080 -below HDMI-A-0 --primary
       # '';
     };
   };
