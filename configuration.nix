@@ -21,6 +21,7 @@
       ./modules/language.nix
 
       # ./qtile.nix
+      ./boot.nix
     ];
 
   # home-manager.useUserPackages = true;

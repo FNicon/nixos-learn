@@ -20,6 +20,10 @@ reboot
 su reboot
 ```
 
+```bash
+cp -R ~/Projects/nixos/nixos-dotfiles/configuration.nix /etc/nixos/configuration.nix
+```
+
 ## Vim
 
 ```bash
@@ -62,6 +66,8 @@ super + ctrl + r
 
 Version manager
 
+| Note : not recommended to use flake.
+
 rebuild nixos
 ```bash
 su nixos-rebuild switch --flake .
@@ -72,3 +78,12 @@ update version
 nix flake update
 ```
 
+## Plymouth
+
+cool splash screen
+
+```bash
+sudo plymouthd
+sudo plymouth --show-splash
+sudo plymouth quit
+```
