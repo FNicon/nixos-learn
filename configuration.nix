@@ -20,7 +20,7 @@
       ./modules/font.nix
       ./modules/language.nix
 
-      # ./window.nix
+      # ./qtile.nix
     ];
 
   # home-manager.useUserPackages = true;
@@ -60,12 +60,35 @@
         ${pkgs.xwallpaper}/bin/xwallpaper --zoom ~/Pictures/wallpapers/image.png
         ${pkgs.xorg.xset}/bin/xset r rate 500 35 &
       '';
-      # setupCommands = ''
-      #   ${pkgs.xorg.xrandr}/bin/xrandr --output HDMI-A-0 --mode 3840x2160
-      #   ${pkgs.xorg.xrandr}/bin/xrandr --output DisplayPort-0 --mode 1920x1080 -below HDMI-A-0 --primary
-      # '';
     };
   };
+
+  services.xserver.resolutions = [
+    {
+      x = 3840;
+      y = 2160;
+    }
+    {
+      x = 1920;
+      y = 1080;
+    }
+  ];
+  services.xserver.xrandrHeads = [
+    {
+      output = "HDMI-A-0";
+      monitorConfig = ''
+        DisplaySize 3840 2160
+      '';
+    }
+    {
+      output = "DisplayPort-0";
+      primary = true;
+      monitorConfig = ''
+        DisplaySize 1920 1080
+        Option "Below" "HDMI-A-0"
+      '';
+    }
+  ];
 
   services.picom = {
     enable = true;
