@@ -19,8 +19,9 @@
     forceFullCompositionPipeline = true;
   };
   hardware.nvidia.prime = {
-    sync = {
+    offload = {
       enable = true;
+      enableOffloadCmd = true;
     };
     # <domain>:<bus>:<device>.<func> to 
     # PCI:<bus>@<domain>:<device>:<func>
