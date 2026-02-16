@@ -8,6 +8,7 @@
   boot.blacklistedKernelModules = ["nova_core"];
   boot.kernelParams = ["NVreg_UsePageAttributeTable=1"]; # Nvidia Tweaks
   hardware.graphics = { enable = true; };
+  powerManagement.enable = false;
   hardware.nvidia = {
     modesetting.enable = true;
     open = true;

@@ -127,8 +127,9 @@
 
   services.picom = {
     enable = true;
-    backend = "glx";
+    backend = "xrender"; # try "glx" if xrender doesn't help
     fade = true;
+    vSync = true;
   };
 
   # Configure keymap in X11
