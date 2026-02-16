@@ -17,12 +17,13 @@
     forceFullCompositionPipeline = true;
   };
   hardware.nvidia.prime = {
-    offload = {
+    sync = {
       enable = true;
-      enableOffloadCmd = true;
     };
+    # <domain>:<bus>:<device>.<func> to 
+    # PCI:<bus>@<domain>:<device>:<func>
     nvidiaBusId = "PCI:1@0:0:0";
-    amdgpuBusId = "PCI:5@0:0:0";
+    amdgpuBusId = "PCI:13@0:0:0";
   };
   hardware.nvidia-container-toolkit.enable = true;
   hardware.graphics.enable32Bit = true;

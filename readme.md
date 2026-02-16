@@ -87,3 +87,32 @@ sudo plymouthd
 sudo plymouth --show-splash
 sudo plymouth quit
 ```
+
+## Error log
+
+```bash
+journalctl -b -p crit
+```
+
+ctrl + alt + f2 if gui error and check /etc/configuration.nix
+
+## NVIDIA
+
+https://wiki.nixos.org/wiki/NVIDIA
+
+```bash
+nix shell nixpkgs#pciutils -c lspci -D -d ::03xx
+```
+
+## Nixos upgrade
+
+https://nixos.org/manual/nixos/stable/#sec-upgrading
+
+```bash
+nix-channel --list
+
+nix-channel --remove nixos
+
+nix-channel --add https://channels.nixos.org/channel-name nixos
+```
+
