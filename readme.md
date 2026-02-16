@@ -114,5 +114,9 @@ nix-channel --list
 nix-channel --remove nixos
 
 nix-channel --add https://channels.nixos.org/channel-name nixos
+
+nix-channel --update
+
+nixos-rebuild boot --upgrade-all
 ```
 
