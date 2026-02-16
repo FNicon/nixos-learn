@@ -3,14 +3,10 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 { config, lib, pkgs, ... }:
-  # let
-  #   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz";
-  # in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      # (import "${home-manager}/nixos")
       ./driver/audio.nix
       ./driver/gpu.nix
       ./driver/storage.nix
@@ -20,14 +16,8 @@
       ./modules/font.nix
       ./modules/language.nix
 
-      # ./qtile.nix
       ./boot.nix
     ];
-
-  # home-manager.useUserPackages = true;
-  # home-manager.useGlobalPkgs = true;
-  # home-manager.backupFileExtension = "backup";
-  # home-manager.users.username = import ./home.nix;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -87,6 +77,48 @@
       monitorConfig = ''
         DisplaySize 1920 1080
         Option "Below" "HDMI-A-0"
+      '';
+    }
+    {
+      output = "HDMI-A-1";
+      monitorConfig = ''
+        DisplaySize 3840 2160
+      '';
+    }
+    {
+      output = "DisplayPort-1";
+      primary = true;
+      monitorConfig = ''
+        DisplaySize 1920 1080
+        Option "Below" "HDMI-A-1"
+      '';
+    }
+        {
+      output = "HDMI-A-2";
+      monitorConfig = ''
+        DisplaySize 3840 2160
+      '';
+    }
+    {
+      output = "DisplayPort-2";
+      primary = true;
+      monitorConfig = ''
+        DisplaySize 1920 1080
+        Option "Below" "HDMI-A-2"
+      '';
+    }
+    {
+      output = "HDMI-A-3";
+      monitorConfig = ''
+        DisplaySize 3840 2160
+      '';
+    }
+    {
+      output = "DisplayPort-3";
+      primary = true;
+      monitorConfig = ''
+        DisplaySize 1920 1080
+        Option "Below" "HDMI-A-3"
       '';
     }
   ];
@@ -161,7 +193,5 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "25.05"; # Did you read the comment?
-  
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 }
 
