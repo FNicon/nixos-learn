@@ -5,8 +5,14 @@
     "amdgpu"
     "nvidia"
   ];
-  boot.blacklistedKernelModules = ["nova_core"];
-  boot.kernelParams = ["NVreg_UsePageAttributeTable=1"]; # Nvidia Tweaks
+  boot.blacklistedKernelModules = [
+    "nova_core"
+    "noveau"
+  ];
+  boot.kernelParams = [
+    "NVreg_UsePageAttributeTable=1" # Nvidia Tweaks
+    "nvidia.NVreg_TemporaryFilePath=/var/tmp"
+  ];
   hardware.graphics = { enable = true; };
   powerManagement.enable = false;
   hardware.nvidia = {
@@ -16,7 +22,7 @@
     powerManagement.finegrained = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.latest;
-    forceFullCompositionPipeline = true;
+    # forceFullCompositionPipeline = true;
   };
   hardware.nvidia.prime = {
     offload = {
