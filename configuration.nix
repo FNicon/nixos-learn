@@ -15,6 +15,7 @@
       ./modules/dns.nix
       ./modules/font.nix
       ./modules/language.nix
+      ./modules/daw.nix
 
       ./boot.nix
     ];
@@ -127,7 +128,7 @@
 
   services.picom = {
     enable = true;
-    backend = "xrender"; # try "glx" if xrender doesn't help
+    backend = "glx"; # try "glx" if xrender doesn't help
     fade = true;
     vSync = true;
   };
@@ -148,7 +149,10 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.username = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel" # Enable ‘sudo’ for the user.
+      "audio" #musnix
+    ];
     packages = with pkgs; [
       tree
     ];
