@@ -70,7 +70,7 @@
 
     arandr
 
-    protonplus
+    # protonplus
 
     fastfetch
 
@@ -88,8 +88,19 @@
     obsidian
 
     pkgs.anki
+
+    androidenv.androidPkgs.androidsdk
+    
+    (heroic.override {
+      extraPkgs = pkgs': with pkgs'; [
+        gamescope
+        gamemode
+      ];
+    })
   ];
-  
+  programs.gamescope.enable = true;
+  programs.gamemode.enable = true;
+  nixpkgs.config.android_sdk.accept_license = true;
   nixpkgs.config.allowUnfree = true;
 
   programs.steam = {
