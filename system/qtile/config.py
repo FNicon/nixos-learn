@@ -34,6 +34,7 @@ import subprocess
 from libqtile import hook
 
 from floating_window_snapping import _borders_touch
+from pool import ContinuousPoll
 
 @lazy.window.function
 def move_snap_window(window, x, y, snap_dist=20):
@@ -43,10 +44,10 @@ def move_snap_window(window, x, y, snap_dist=20):
     """
     window.tweak_float(**_borders_touch(window, x, y, snap_dist)) 
 
-@hook.subscribe.startup_once
-def autostart():
-    home = os.path.expanduser('~/.screenlayout/drawing.sh')
-    subprocess.call(home)
+# @hook.subscribe.startup_once
+# def autostart():
+#     home = os.path.expanduser('~/.screenlayout/drawing.sh')
+#     subprocess.call(home)
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -220,6 +221,12 @@ screens = [
             24,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+        ),
+        top = bar.Bar(
+            [
+                ContinuousPoll("journalctl -f"),
+            ],
+            24,
         ),
         # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
         # By default we handle these events delayed to already improve performance, however your system might still be struggling
