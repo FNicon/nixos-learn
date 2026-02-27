@@ -3,18 +3,12 @@
 let
   inherit (pkgs) vscode-extensions vscode-utils vscode-with-extensions vscodium;
 
-  # bbenoist.nix = vscode-utils.extensionFromVscodeMarketplace {
-  #   name = "vscode-nix";
-  #   publisher = "bbenoist";
-  #   version = "1.0.1";
-  #   sha256 = "sha256:";
+  # gitlens = vscode-utils.extensionFromVscodeMarketplace {
+  #   name = "gitlens";
+  #   publisher = "eamodio";
+  #   version = "17.10.2";
+  #   sha256 = "sha256:0lhrw24ilncdczh90jnjx71ld3b626xpk8b9qmwgzzhby89qs417";
   # };
-  gitlens = vscode-utils.extensionFromVscodeMarketplace {
-    name = "gitlens";
-    publisher = "eamodio";
-    version = "17.10.2";
-    sha256 = "sha256:0lhrw24ilncdczh90jnjx71ld3b626xpk8b9qmwgzzhby89qs417";
-  };
 
   nix-env-selector = vscode-utils.extensionFromVscodeMarketplace {
     name = "nix-env-selector";
@@ -37,12 +31,12 @@ let
     sha256 = "sha256:0phffzqv1nmwsgcx6abgzbzw95zc0zlnhsjv2grs5mcsgrghl759";
   };
 
-  language-yesod = vscode-utils.extensionFromVscodeMarketplace {
-    name = "language-yesod";
-    publisher = "BIGMOON";
-    version = "0.9.0";
-    sha256 = "sha256:77tsTExt+rstjwQGkHIYRckX7KkjiBViMGaWmgRn4+4=";
-  };
+  # language-yesod = vscode-utils.extensionFromVscodeMarketplace {
+  #   name = "language-yesod";
+  #   publisher = "BIGMOON";
+  #   version = "0.9.0";
+  #   sha256 = "sha256:77tsTExt+rstjwQGkHIYRckX7KkjiBViMGaWmgRn4+4=";
+  # };
 
   vs_ext = vscode-with-extensions.override {
     vscode = vscodium;
@@ -51,12 +45,12 @@ let
         bbenoist.nix # nix
         editorconfig # styling
         rewrap # comment wrap
-        gitlens # git
-        language-yesod # haskell
+        # gitlens # git
+        # language-yesod # haskell
         nix-env-selector # nix
         
-        dhall.dhall-lang # haskell
-        haskell.haskell justusadam.language-haskell # haskell
+        # dhall.dhall-lang # haskell
+        # haskell.haskell justusadam.language-haskell # haskell
 
         ms-azuretools.vscode-docker # docker
         ms-vscode.cpptools # cpp
@@ -91,5 +85,5 @@ let
   };
 in
 {
-  environment.systemPackages = [ vs_ext ];
+  environment.systemPackages = [ vscodium.fhs ];
 }
