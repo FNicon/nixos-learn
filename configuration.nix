@@ -12,6 +12,7 @@
       ./driver/storage.nix
 
       ./modules/app.nix
+      ./modules/app/vscode.nix
       ./modules/dns.nix
       ./modules/font.nix
       ./modules/language.nix
@@ -128,7 +129,7 @@
 
   services.picom = {
     enable = true;
-    backend = "glx"; # try "glx" if xrender doesn't help
+    backend = "xrender"; # try "glx" if xrender doesn't help
     fade = true;
     vSync = true;
   };
@@ -152,6 +153,8 @@
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
       "audio" #musnix
+      "kvm" # android
+      "adbusers" # android
     ];
     packages = with pkgs; [
       tree

@@ -14,11 +14,11 @@
     "nvidia.NVreg_TemporaryFilePath=/var/tmp"
   ];
   hardware.graphics = { enable = true; };
-  powerManagement.enable = false;
+  powerManagement.enable = true;
   hardware.nvidia = {
     modesetting.enable = true;
     open = true;
-    powerManagement.enable = false;
+    powerManagement.enable = true;
     powerManagement.finegrained = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.latest;
@@ -36,5 +36,5 @@
   };
   hardware.nvidia-container-toolkit.enable = true;
   hardware.graphics.enable32Bit = true;
-
+  virtualisation.docker.rootless.daemon.settings.features.cdi = true;
 }

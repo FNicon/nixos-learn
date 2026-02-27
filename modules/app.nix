@@ -49,7 +49,7 @@
     unrar-free
 
     # editor
-    vscode
+    # vscode
     # programming
     python313Packages.python
     python313Packages.pip
@@ -97,11 +97,38 @@
         gamemode
       ];
     })
+
+    pciutils
+
+    direnv
+    
+    clojure
   ];
-  programs.gamescope.enable = true;
-  programs.gamemode.enable = true;
+  programs.nix-ld.enable = true; # dynamic link
+  programs.direnv.enable = true; # direnv
+  programs.gamescope.enable = true; # heroic
+  programs.steam.gamescopeSession.enable = true; #steam
+  programs.gamemode.enable = true; # heroic
+
   nixpkgs.config.android_sdk.accept_license = true;
+  programs.adb.enable = true;
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "steam"
+    "steam-original"
+    "steam-unwrapped"
+    "steam-run"
+  ];
+
+  fileSystems."/games" = {
+    device = "/dev/disk/by-partuuid/d4eb0828-fdf8-40d8-8a57-3bc825eac476";
+    fsType = "ext4";
+    options = [
+      "users" # Allows any user to mount/unmount
+      "nofail" # Allows systems to continue to boot if drive cannot be mounted
+      "exec"   # Allows execution of files
+    ];
+  };
 
   programs.steam = {
     enable = true;
