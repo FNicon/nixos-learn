@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 
 let
-  inherit (pkgs) vscode-extensions vscode-utils vscode-with-extensions;
+  inherit (pkgs) vscode-extensions vscode-utils vscode-with-extensions vscodium;
 
   # bbenoist.nix = vscode-utils.extensionFromVscodeMarketplace {
   #   name = "vscode-nix";
@@ -44,7 +44,8 @@ let
     sha256 = "sha256:77tsTExt+rstjwQGkHIYRckX7KkjiBViMGaWmgRn4+4=";
   };
 
-  vscodium = vscode-with-extensions.override {
+  vs_ext = vscode-with-extensions.override {
+    vscode = vscodium;
     vscodeExtensions = with vscode-extensions;
       [
         bbenoist.nix # nix
@@ -90,5 +91,5 @@ let
   };
 in
 {
-  environment.systemPackages = [ vscodium ];
+  environment.systemPackages = [ vs_ext ];
 }
