@@ -34,7 +34,8 @@
     nvidiaBusId = "PCI:1@0:0:0";
     amdgpuBusId = "PCI:13@0:0:0";
   };
-  hardware.nvidia-container-toolkit.enable = true;
   hardware.graphics.enable32Bit = true;
   virtualisation.docker.rootless.daemon.settings.features.cdi = true;
+  # GPU Pass-through (Nvidia)
+  # hardware.nvidia-container-toolkit.enable = true;
 }

@@ -2,5 +2,7 @@
 result
 result-*
 
+nixos.qcow2
+
 # Ignore automatically generated direnv output
 .direnv

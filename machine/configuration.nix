@@ -3,22 +3,29 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 { config, lib, pkgs, ... }:
+let
+  nix-user = "alice";
+in
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      # Disable during testing
+      # ./hardware-configuration.nix
+      ./emulator/qemu.nix
+      ./window-manager/qtile/xorg.nix
+
       ./driver/audio.nix
       ./driver/gpu.nix
       ./driver/storage.nix
 
-      ./modules/app.nix
-      ./modules/app/vscode.nix
-      ./modules/dns.nix
-      ./modules/font.nix
-      ./modules/language.nix
-      ./modules/daw.nix
+      # ./modules/app.nix
+      # ./modules/app/vscode.nix
+      # ./modules/dns.nix
+      # ./modules/font.nix
+      # ./modules/language.nix
+      # ./modules/daw.nix
 
-      ./boot.nix
+      # ./boot.nix
     ];
 
   boot.kernelPackages = pkgs.linuxPackages_6_18;
@@ -45,95 +52,6 @@
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-  services.xserver = {
-    enable = true;
-    windowManager.qtile.enable = true;
-    displayManager = {
-      sessionCommands = ''
-        ${pkgs.xwallpaper}/bin/xwallpaper --zoom ~/Pictures/wallpapers/image.png
-        ${pkgs.xorg.xset}/bin/xset r rate 500 35 &
-      '';
-    };
-  };
-
-  services.xserver.resolutions = [
-    {
-      x = 3840;
-      y = 2160;
-    }
-    {
-      x = 1920;
-      y = 1080;
-    }
-  ];
-  services.xserver.xrandrHeads = [
-    {
-      output = "HDMI-A-0";
-      monitorConfig = ''
-        DisplaySize 3840 2160
-      '';
-    }
-    {
-      output = "DisplayPort-0";
-      primary = true;
-      monitorConfig = ''
-        DisplaySize 1920 1080
-        Option "Below" "HDMI-A-0"
-      '';
-    }
-    {
-      output = "HDMI-A-1";
-      monitorConfig = ''
-        DisplaySize 3840 2160
-      '';
-    }
-    {
-      output = "DisplayPort-1";
-      primary = true;
-      monitorConfig = ''
-        DisplaySize 1920 1080
-        Option "Below" "HDMI-A-1"
-      '';
-    }
-        {
-      output = "HDMI-A-2";
-      monitorConfig = ''
-        DisplaySize 3840 2160
-      '';
-    }
-    {
-      output = "DisplayPort-2";
-      primary = true;
-      monitorConfig = ''
-        DisplaySize 1920 1080
-        Option "Below" "HDMI-A-2"
-      '';
-    }
-    {
-      output = "HDMI-A-3";
-      monitorConfig = ''
-        DisplaySize 3840 2160
-      '';
-    }
-    {
-      output = "DisplayPort-3";
-      primary = true;
-      monitorConfig = ''
-        DisplaySize 1920 1080
-        Option "Below" "HDMI-A-3"
-      '';
-    }
-  ];
-
-  services.picom = {
-    enable = true;
-    backend = "xrender"; # try "glx" if xrender doesn't help
-    fade = true;
-    vSync = true;
-  };
-
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
@@ -148,17 +66,15 @@
   # services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.username = {
+  users.users."${nix-user}" = {
     isNormalUser = true;
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
-      "audio" #musnix
-      "kvm" # android
-      "adbusers" # android
     ];
     packages = with pkgs; [
       tree
     ];
+    initialPassword = "test";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
