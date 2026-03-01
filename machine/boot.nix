@@ -6,7 +6,7 @@
 #     rev = "master";
 #     sha256 = "sha256-XCTMx/d6Ssg+38jb9mt5rYLBdDaiEGhKvlbaHMAe3mg=";
 #   }
-in
+# in
 {
   boot = {
     plymouth = {

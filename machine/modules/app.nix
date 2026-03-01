@@ -2,9 +2,16 @@
 
 {
   imports = [
-    ./modules/app/vscode.nix
-    ./modules/app/steam.nix
-    ./modules/app/heroic.nix
+    ./app/android.nix
+    ./app/browser.nix
+    ./app/docker.nix
+    ./app/gpu_screen_record.nix
+    ./app/heroic.nix
+    ./app/libreoffice.nix
+    ./app/pen_tablet.nix
+    ./app/renpy.nix
+    ./app/steam.nix
+    ./app/vscode.nix
   ];
 
   # List packages installed in system profile.
@@ -47,11 +54,6 @@
     # rar
     unrar-free
 
-    # editor
-    # vscode
-    # programming
-    # python313Packages.python
-    # python313Packages.pip
     bun
     # 2D
     krita
@@ -60,7 +62,6 @@
     # 3D
     openscad
     # game-engine
-    renpy
     unityhub
     love
 

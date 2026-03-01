@@ -120,3 +120,4 @@ nix-channel --update
 nixos-rebuild boot --upgrade-all
 ```
 
+https://nix.dev/guides/best-practices#nixpkgs-config

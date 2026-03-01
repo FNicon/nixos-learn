@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
 
+let
+  nix-user = "alice";
+in
 {
   virtualisation = {
     # as systemd
@@ -32,7 +35,7 @@
   };
 
   # Adding users to the docker group will provide them access to the socket after a restart: 
-  users.users.<user>.extraGroups = [ "docker" ];
+  users.users."${nix-user}".extraGroups = [ "docker" ];
 
   # Note: If you use the btrfs filesystem, you might need to set the storageDriver option: 
   # virtualisation.docker.storageDriver = "btrfs";

@@ -22,14 +22,14 @@
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
 
-    package = pkgs.steam.override {
-     withPrimus = true; # Bumblebee and Primus
-     extraPkgs = pkgs: [
-        bumblebee # Bumblebee and Primus
-        glxinfo # Bumblebee and Primus
-        jdk # Java
-      ];
-    };
+    # package = pkgs.steam.override {
+    #  withPrimus = true; # Bumblebee and Primus
+    #  extraPkgs = pkgs: [
+    #     bumblebee # Bumblebee and Primus
+    #     glxinfo # Bumblebee and Primus
+    #     jdk # Java
+    #   ];
+    # };
   };
 
   # Java

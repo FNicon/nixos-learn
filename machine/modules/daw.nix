@@ -1,11 +1,14 @@
+let
+  nix-user = "alice";
+in
 {
   imports = 
     [
-      /absoule/path/to/musnix
+      /absolute/path
     ];
   musnix.enable = true;
 
-  users.users.<user>.extraGroups = [
+  users.users."${nix-user}".extraGroups = [
     "audio" #musnix
   ];
 }

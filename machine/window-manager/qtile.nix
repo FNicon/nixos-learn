@@ -45,11 +45,6 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    fastfetch
-    python315
-  ];
-
   services.picom = {
     enable = true;
     backend = "xrender"; # try "glx" if xrender doesn't help

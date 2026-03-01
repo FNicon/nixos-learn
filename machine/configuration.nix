@@ -12,18 +12,17 @@ in
       # Disable during testing
       # ./hardware-configuration.nix
       ./emulator/qemu.nix
-      ./window-manager/qtile/xorg.nix
+      ./window-manager/qtile.nix
 
       ./driver/audio.nix
       ./driver/gpu.nix
       ./driver/storage.nix
 
-      # ./modules/app.nix
-      # ./modules/app/vscode.nix
-      # ./modules/dns.nix
-      # ./modules/font.nix
-      # ./modules/language.nix
-      # ./modules/daw.nix
+      ./modules/app.nix
+      ./modules/dns.nix
+      ./modules/daw.nix
+      ./modules/font.nix
+      ./modules/language.nix
 
       # ./boot.nix
     ];
@@ -74,7 +73,6 @@ in
     packages = with pkgs; [
       tree
     ];
-    initialPassword = "test";
   };
 
   # Some programs need SUID wrappers, can be configured further or are

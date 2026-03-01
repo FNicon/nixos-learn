@@ -1,18 +1,29 @@
 { config, lib, pkgs, ... }:
 
 {
-  programs.firefox.enable = true;
+  # programs.firefox.enable = true;
 
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  firefox = {
-    enableGoogleTalkPlugin = true;
-  };
-
-  chromium = {
-    enablePepperFlash = true; # Chromium's non-NSAPI alternative to Adobe Flash
+  programs.chromium = {
+    extraOpts = {
+    	"ExtensionManifestV2Availability" = 2;
+    };
   };
 
   environment.systemPackages = with pkgs; [
     librewolf # browser
+
+    (chromium.override {
+      commandLineArgs = [
+        "--enable-features=AcceleratedVideoEncoder,VaapiOnNvidiaGPUs,VaapiIgnoreDriverChecks,Vulkan,DefaultANGLEVulkan,VulkanFromANGLE"
+        "--enable-features=VaapiIgnoreDriverChecks,VaapiVideoDecoder,PlatformHEVCDecoderSupport"
+        "--enable-features=UseMultiPlaneFormatForHardwareVideo"
+        "--ignore-gpu-blocklist"
+        "--enable-zero-copy"
+      ];
+      enableWideVine = true; 
+    })
   ];
+
 }
